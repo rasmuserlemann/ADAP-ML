@@ -108,8 +108,8 @@ class Statistics:
 ##### TESTING CODE
 import sklearn
 import adapml_data
-path_to_data = '/data/SCLC_study_output_filtered_2.csv'
-path_to_resp = '/data/SCLC_study_responses_2.csv'
+path_to_data = '/home/ec2-user/ADAP-ML//data/SCLC_study_output_filtered_2.csv'
+path_to_resp = '/home/ec2-user/ADAP-ML//data/SCLC_study_responses_2.csv'
 data = adapml_data.DataImport(path_to_data)
 response1D = adapml_data.DataImport.getResponse(path_to_resp);
 response2D = adapml_data.DataImport.getDummyResponse(response1D);
