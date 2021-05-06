@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 #Scipy Libraries
 import scipy.stats as stat
 
-#sys.path.append('/Users/rerleman/Dropbox/My Mac (CCI00BHV2JALT)/Documents/du-lab-adap-ml-765c7888da3b/JupyterNotebooks')
+#sys.path.append('/home/ec2-user/ADAP-ML')
 
 class Statistics:
     def __init__(self, data0, method0, resp0):
