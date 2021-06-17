@@ -1,6 +1,5 @@
 import nbformat as nbf
-import subprocess
-
+import os
 
 nb = nbf.v4.new_notebook()
 text1 = """\
@@ -22,8 +21,8 @@ from matplotlib import pyplot as plt
 
 
 ###CHANGE DATA PATH FILE
-path_to_data = '/Users/rerleman/Dropbox/My Mac (CCI00BHV2JALT)/Documents/ADAP-ML/data/SCLC_study_output_filtered_2.csv'
-path_to_resp = '/Users/rerleman/Dropbox/My Mac (CCI00BHV2JALT)/Documents/ADAP-ML/data/SCLC_study_responses_2.csv'
+path_to_data = '/Users/rerleman/Documents/Git/adap-ml/data/SCLC_study_output_filtered_2.csv'
+path_to_resp = '/Users/rerleman/Documents/Git/adap-ml/data/SCLC_study_responses_2.csv'
 
 data = adapml_data.DataImport(path_to_data)
 response1D = adapml_data.DataImport.getResponse(path_to_resp);
@@ -101,4 +100,4 @@ fname = 'report.ipynb'
 with open(fname, 'w') as f:
     nbf.write(nb, f)
 
-subprocess.call('jupyter nbconvert --to PDFviaHTML report.ipynb')
+os.system('jupyter nbconvert --to PDF report.ipynb')
