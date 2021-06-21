@@ -1,5 +1,6 @@
 import nbformat as nbf
 import os
+from nbconvert.preprocessors import ExecutePreprocessor
 
 nb = nbf.v4.new_notebook()
 text1 = """\
@@ -18,15 +19,16 @@ import loadTestData as load_data
 import sklearn.preprocessing as pre
 from sklearn.cross_decomposition import PLSRegression as PLS
 from matplotlib import pyplot as plt
+import os
 
 
-###CHANGE DATA PATH FILE
-path_to_data = '/Users/rerleman/Documents/Git/adap-ml/data/SCLC_study_output_filtered_2.csv'
-path_to_resp = '/Users/rerleman/Documents/Git/adap-ml/data/SCLC_study_responses_2.csv'
+reldir = os.getcwd()
+path_to_data = os.path.join(reldir, 'data', 'SCLC_study_output_filtered_2.csv')
+path_to_resp = os.path.join(reldir, 'data', 'SCLC_study_responses_2.csv')
 
 data = adapml_data.DataImport(path_to_data)
-response1D = adapml_data.DataImport.getResponse(path_to_resp);
-response2D = adapml_data.DataImport.getDummyResponse(response1D);
+response1D = adapml_data.DataImport.getResponse(path_to_resp)
+response2D = adapml_data.DataImport.getDummyResponse(response1D)
 
 variables = data.getVariableNames()
 samples = data.getSampleNames()
@@ -34,14 +36,15 @@ samples = data.getSampleNames()
 t_test = adapml_statistics.Statistics(data.data, 'anova', response1D)
 t_test.plot_logp_values(variables)
 t_test.plot_volcano_t(variables)
+
+
 """
 text2 = """\
 # PCA
 blabla"""
 
 code2 = """\
-#Normalize data
-data.normalizeData("autoscale")
+
 #Perform PCA
 pca = adapml_chemometrics.Chemometrics(data.data, "pca", response1D)
 
@@ -90,14 +93,15 @@ plotProjectionScatterMultiClass(pls_trans, resp, 2)
 """
 
 nb['cells'] = [nbf.v4.new_markdown_cell(text1),
-               nbf.v4.new_code_cell(code1),
-               nbf.v4.new_markdown_cell(text2),
-               nbf.v4.new_code_cell(code2),
-               nbf.v4.new_markdown_cell(text3),
-               nbf.v4.new_code_cell(code3)]
-fname = 'report.ipynb'
-
-with open(fname, 'w') as f:
+               nbf.v4.new_code_cell(code1)]
+with open('src/report.ipynb', 'w') as f:
     nbf.write(nb, f)
 
-os.system('jupyter nbconvert --to PDF report.ipynb')
+with open('src/report.ipynb') as f:
+    nb = nbf.read(f, as_version=4)
+    ep = ExecutePreprocessor(timeout=600, kernel_name='python3')
+    ep.preprocess(nb, {})
+with open('src/report_executed.ipynb', 'wt') as f:
+    nbf.write(nb, f)
+
+os.system('jupyter nbconvert --output-dir=./results --to PDF --no-input src/report_executed.ipynb')
