@@ -24,8 +24,8 @@ import os
 
 
 reldir = os.getcwd()
-path_to_data = os.path.join(reldir, 'data', 'SCLC_study_output_filtered_2.csv')
-path_to_resp = os.path.join(reldir, 'data', 'SCLC_study_responses_2.csv')
+path_to_data = os.path.join(reldir, '..', 'data', 'SCLC_study_output_filtered_2.csv')
+path_to_resp = os.path.join(reldir, '..', 'data', 'SCLC_study_responses_2.csv')
 
 data = adapml_data.DataImport(path_to_data)
 response1D = adapml_data.DataImport.getResponse(path_to_resp)
@@ -45,13 +45,14 @@ text2 = """\
 blabla"""
 
 code2 = """\
+data.normalizeData("autoscale")
 
-#Perform PCA
 pca = adapml_chemometrics.Chemometrics(data.data, "pca", response1D)
+pls = adapml_chemometrics.Chemometrics(data.data, "pls-da", response1D, kfolds=10, num_comp=2) # Also Predicts
+opls = adapml_chemometrics.Chemometrics(data.data, "opls", response1D, kfolds=10, num_comp=2, opls_comp=16) # Also Predicts
+lda = adapml_chemometrics.Chemometrics(data.data, "lda", response1D) # Also Predicts
 
 print("PCA Projections");pca.plotProjectionScatterMultiClass(2, labels=["Healthy", "Not Healthy"])
-print("PCA Vectors"); pca.plotVectorLoadings(variables, 1)
-
 """
 
 text3 = """\
@@ -94,23 +95,36 @@ plotProjectionScatterMultiClass(pls_trans, resp, 2)
 """
 
 nb['cells'] = [nbf.v4.new_markdown_cell(text1),
-               nbf.v4.new_code_cell(code1)]
+               nbf.v4.new_code_cell(code1),
+               nbf.v4.new_markdown_cell(text2),
+               nbf.v4.new_code_cell(code2)]
 
-#Create the folders
-def create_images(folder_name):
-    # Create and store your images in folder_name
-    pass
 folder_name = 'Analysis_' + time.strftime("%Y_%m_%d_%H_%M_%S")
 os.mkdir(folder_name)
+#Make src folder and copy the python files
+os.mkdir(folder_name + '/src')
+os.system('cp adapml_chemometrics.py ' + folder_name + '/src')
+os.system('cp adapml_clustering.py ' + folder_name + '/src')
+os.system('cp adapml_classification.py ' + folder_name + '/src')
+os.system('cp adapml_statistics.py ' + folder_name + '/src')
+os.system('cp loadTestData.py ' + folder_name + '/src')
+os.system('cp OPLS.py ' + folder_name + '/src')
+os.system('cp adapml_data.py ' + folder_name + '/src')
 
-with open('src/report.ipynb', 'w') as f:
+os.mkdir(folder_name + '/results')
+
+#Copy the data
+os.system('cp -R data ' + folder_name )
+with open(folder_name + '/src/report.ipynb', 'w') as f:
     nbf.write(nb, f)
 
-with open('src/report.ipynb') as f:
+with open(folder_name + '/src/report.ipynb') as f:
     nb = nbf.read(f, as_version=4)
     ep = ExecutePreprocessor(timeout=600, kernel_name='python3')
     ep.preprocess(nb, {})
-with open('src/report_executed.ipynb', 'wt') as f:
+with open(folder_name + '/src/report_executed.ipynb', 'wt') as f:
     nbf.write(nb, f)
 
-os.system('jupyter nbconvert --output-dir=./results --to PDF --no-input src/report_executed.ipynb')
+os.system('jupyter nbconvert --output-dir=' + folder_name + '/results --to PDF --output report.pdf --no-input ' + folder_name + '/src/report_executed.ipynb')
+os.system('jupyter nbconvert --output-dir=' + folder_name + '/results --to PDF --output report_code.pdf ' + folder_name + '/src/report_executed.ipynb')
+
