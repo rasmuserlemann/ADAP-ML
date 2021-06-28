@@ -1,5 +1,6 @@
 import nbformat as nbf
 import os
+import time
 from nbconvert.preprocessors import ExecutePreprocessor
 
 nb = nbf.v4.new_notebook()
@@ -94,6 +95,14 @@ plotProjectionScatterMultiClass(pls_trans, resp, 2)
 
 nb['cells'] = [nbf.v4.new_markdown_cell(text1),
                nbf.v4.new_code_cell(code1)]
+
+#Create the folders
+def create_images(folder_name):
+    # Create and store your images in folder_name
+    pass
+folder_name = 'Analysis_' + time.strftime("%Y_%m_%d_%H_%M_%S")
+os.mkdir(folder_name)
+
 with open('src/report.ipynb', 'w') as f:
     nbf.write(nb, f)
 
