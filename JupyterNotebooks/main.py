@@ -1,6 +1,7 @@
 import nbformat as nbf
 import os
 import time
+#import config
 from nbconvert.preprocessors import ExecutePreprocessor
 
 nb = nbf.v4.new_notebook()
@@ -48,11 +49,9 @@ code2 = """\
 data.normalizeData("autoscale")
 
 pca = adapml_chemometrics.Chemometrics(data.data, "pca", response1D)
-pls = adapml_chemometrics.Chemometrics(data.data, "pls-da", response1D, kfolds=10, num_comp=2) # Also Predicts
-opls = adapml_chemometrics.Chemometrics(data.data, "opls", response1D, kfolds=10, num_comp=2, opls_comp=16) # Also Predicts
-lda = adapml_chemometrics.Chemometrics(data.data, "lda", response1D) # Also Predicts
 
 print("PCA Projections");pca.plotProjectionScatterMultiClass(2, labels=["Healthy", "Not Healthy"])
+
 """
 
 text3 = """\
@@ -77,7 +76,7 @@ def plotProjectionScatterMultiClass(pc, resp, num_var):
 
     plt.show()
 
-
+data = load_data.loadDataPandas(path_to_data)
 d = data.to_numpy()
 var_index = data.columns.values.tolist()
 
@@ -97,10 +96,14 @@ plotProjectionScatterMultiClass(pls_trans, resp, 2)
 nb['cells'] = [nbf.v4.new_markdown_cell(text1),
                nbf.v4.new_code_cell(code1),
                nbf.v4.new_markdown_cell(text2),
-               nbf.v4.new_code_cell(code2)]
+               nbf.v4.new_code_cell(code2),
+               nbf.v4.new_markdown_cell(text3),
+               nbf.v4.new_code_cell(code3)]
 
+#New folder with a unique name
 folder_name = 'Analysis_' + time.strftime("%Y_%m_%d_%H_%M_%S")
 os.mkdir(folder_name)
+
 #Make src folder and copy the python files
 os.mkdir(folder_name + '/src')
 os.system('cp adapml_chemometrics.py ' + folder_name + '/src')

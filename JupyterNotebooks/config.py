@@ -1,33 +1,11 @@
-# Author: Xiuxia Du
-# April 2020
-
-from collections import namedtuple
 import os
 
 # =================================
 # file location
 # =================================
-bool_windows = True
+bool_mac = True
 
-batch_index_str = '42'
-batch_index_int = int(batch_index_str)
-
-# batches_to_process = ['batch-01', 'batch-02', 'batch-03', 'batch-04', 'batch-05', 'batch-06', 'batch-07', \
-#                       'batch-08', 'batch-09', 'batch-10', 'batch-11', 'batch-12', 'batch-13', 'batch-14', \
-#                       'batch-15', 'batch-16', 'batch-17', 'batch-19', 'batch-20', 'batch-21', 'batch-23', \
-#                       'batch-24', 'batch-25', 'batch-26', 'batch-27', 'batch-29', 'batch-30', 'batch-31', \
-#                       'batch-32', 'batch-33', 'batch-34', 'batch-36', 'batch-37', 'batch-38', 'batch-40', \
-#                       'batch-41']
-
-batches_to_process = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', \
-                      '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', \
-                      '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', \
-                      '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', \
-                      '41', '42']
-
-# batches_to_process = ['01', '02', '03']
-
-if bool_windows:
+if bool_mac:
     raw_data_dir_root = 'F:\\Du-Lab\\raw_data\\Susan_Sumner\\CARDIA_03-16-2020\\'
 
     raw_data_dir = 'F:\\Du-Lab\\raw_data\\Susan_Sumner\\CARDIA_03-16-2020\\Batch' + str(int(batch_index_str)) + '\\'
