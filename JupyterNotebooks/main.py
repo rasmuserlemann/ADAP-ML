@@ -2,6 +2,7 @@ import nbformat as nbf
 import os
 import time
 #import config
+import uuid
 from nbconvert.preprocessors import ExecutePreprocessor
 
 nb = nbf.v4.new_notebook()
@@ -101,7 +102,7 @@ nb['cells'] = [nbf.v4.new_markdown_cell(text1),
                nbf.v4.new_code_cell(code3)]
 
 #New folder with a unique name
-folder_name = 'Analysis_' + time.strftime("%Y_%m_%d_%H_%M_%S")
+folder_name = 'Analysis_' + time.strftime("%Y_%m_%d_%H_%M_%S") + "_" + str(uuid.uuid4())
 os.mkdir(folder_name)
 
 #Make src folder and copy the python files
