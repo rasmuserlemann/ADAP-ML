@@ -6,13 +6,18 @@ import uuid
 from nbconvert.preprocessors import ExecutePreprocessor
 
 nb = nbf.v4.new_notebook()
-text1 = """\
-# ADAP-ML Report
-
-T-test and volcano plot
+title = """\
+% ADAP-ML Report
 """
 
-code1 = """\
+stattext = """\
+# Statistics Module
+
+T-test
+"""
+
+
+statcode = """\
 import adapml_data
 import adapml_classification
 import adapml_chemometrics
@@ -42,11 +47,13 @@ t_test.plot_volcano_t(variables)
 
 
 """
-text2 = """\
-# PCA
-blabla"""
+dimtext = """\
+# Dimension-Reduction Module
 
-code2 = """\
+PCA, LDA
+""" 
+
+dimcode = """\
 data.normalizeData("autoscale")
 
 pca = adapml_chemometrics.Chemometrics(data.data, "pca", response1D)
@@ -55,11 +62,24 @@ print("PCA Projections");pca.plotProjectionScatterMultiClass(2, labels=["Healthy
 
 """
 
-text3 = """\
-# PLS-DA
+clustertext = """\
+# Clustering Module
+
 """
 
-code3 = """\
+clustercode = """\
+print(3+3)
+
+"""
+
+classiftext = """\
+# Classification Module
+
+PLS-DA
+
+"""
+
+classifcode = """\
 def plotProjectionScatterMultiClass(pc, resp, num_var):
     plt.figure(figsize=(24, 18))
 
@@ -94,12 +114,11 @@ pls_trans = pls.transform(data_norm)
 plotProjectionScatterMultiClass(pls_trans, resp, 2)
 """
 
-nb['cells'] = [nbf.v4.new_markdown_cell(text1),
-               nbf.v4.new_code_cell(code1),
-               nbf.v4.new_markdown_cell(text2),
-               nbf.v4.new_code_cell(code2),
-               nbf.v4.new_markdown_cell(text3),
-               nbf.v4.new_code_cell(code3)]
+nb['cells'] = [nbf.v4.new_markdown_cell(title),
+               nbf.v4.new_markdown_cell(stattext), nbf.v4.new_code_cell(statcode),
+               nbf.v4.new_markdown_cell(dimtext), nbf.v4.new_code_cell(dimcode),
+               nbf.v4.new_markdown_cell(clustertext), nbf.v4.new_code_cell(clustercode),
+               nbf.v4.new_markdown_cell(classiftext), nbf.v4.new_code_cell(classifcode)]
 
 #New folder with a unique name
 folder_name = 'Analysis_' + time.strftime("%Y_%m_%d_%H_%M_%S") + "_" + str(uuid.uuid4())
