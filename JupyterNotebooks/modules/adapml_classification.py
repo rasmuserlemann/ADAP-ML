@@ -14,8 +14,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
 from sklearn.model_selection import GridSearchCV
 #adapml Libraries
-import adapml_chemometrics as chemo
-import adapml_data
+import modules.adapml_chemometrics as chemo
+import modules.adapml_data as adapml_data
 #other
 import warnings
 warnings.filterwarnings("error")

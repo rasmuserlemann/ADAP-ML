@@ -15,9 +15,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score
 from scipy.stats.stats import pearsonr 
 #Local Libraries
-import adapml_data
-import adapml_classification
-import OPLS
+import modules.adapml_data as adapml_data
+import modules.adapml_classification as adapml_classification
+import modules.OPLS as OPLS
 
     
 class Chemometrics:

@@ -3,7 +3,11 @@ import os
 import time
 #import config
 import uuid
+import sys
 from nbconvert.preprocessors import ExecutePreprocessor
+
+#Read in data location as an argument in terminal
+datafile = str(sys.argv[1])
 
 nb = nbf.v4.new_notebook()
 title = """\
@@ -11,30 +15,36 @@ title = """\
 """
 
 stattext = """\
-# Statistics Module
+# Statistics
 
 T-test
 """
 
 
 statcode = """\
-import adapml_data
-import adapml_classification
-import adapml_chemometrics
-import adapml_statistics
+import modules.adapml_data as adapml_data
+import modules.adapml_classification as adapml_classification
+import modules.adapml_clustering as adapml_clustering
+import modules.adapml_chemometrics as adapml_chemometrics
+import modules.adapml_statistics as adapml_statistics
 import numpy as np
-import loadTestData as load_data
+import modules.loadTestData as load_data
 import sklearn.preprocessing as pre
 from sklearn.cross_decomposition import PLSRegression as PLS
 from matplotlib import pyplot as plt
+from sklearn import cluster as clst
+from scipy.cluster.hierarchy import dendrogram
+
 import os
 
 
 reldir = os.getcwd()
-path_to_data = os.path.join(reldir, '..', 'data', 'SCLC_study_output_filtered_2.csv')
+path_to_data = os.path.join(reldir, '..', 'data', '{}')
 path_to_resp = os.path.join(reldir, '..', 'data', 'SCLC_study_responses_2.csv')
 
 data = adapml_data.DataImport(path_to_data)
+data2 = adapml_data.DataImport(path_to_data)
+
 response1D = adapml_data.DataImport.getResponse(path_to_resp)
 response2D = adapml_data.DataImport.getDummyResponse(response1D)
 
@@ -46,9 +56,10 @@ t_test.plot_logp_values(variables)
 t_test.plot_volcano_t(variables)
 
 
-"""
+""".format(datafile)
+
 dimtext = """\
-# Dimension-Reduction Module
+# Dimension-Reduction
 
 PCA, LDA
 """ 
@@ -57,23 +68,35 @@ dimcode = """\
 data.normalizeData("autoscale")
 
 pca = adapml_chemometrics.Chemometrics(data.data, "pca", response1D)
+lda = adapml_chemometrics.Chemometrics(data.data, "lda", response1D) # Also Predicts
 
 print("PCA Projections");pca.plotProjectionScatterMultiClass(2, labels=["Healthy", "Not Healthy"])
+print("LDA Projections");lda.plotProjectionScatterMultiClass(1, labels=["Healthy", "Not Healthy"])
 
+print("PCA Vectors"); pca.plotVectorLoadings(variables, 1)
+print("LDA Vectors"); lda.plotVectorLoadings(variables, 1)
 """
 
 clustertext = """\
-# Clustering Module
+# Clustering
+
+K-means, hierarchical, 
 
 """
 
 clustercode = """\
-print(3+3)
+kmeans_cluster = adapml_clustering.Clustering(data.data, 'kmeans', 3)
+kmeans_cluster.getClusterResults(samples)
+
+hierarchical_cluster = adapml_clustering.Clustering(data.data, 'hierarchical', 3)
+hierarchical_cluster.getClusterResults(samples)
+hierarchical_cluster.plot_dendrogram(samples)
+
 
 """
 
 classiftext = """\
-# Classification Module
+# Classification
 
 PLS-DA
 
@@ -112,13 +135,34 @@ pls = PLS().fit(data_norm, resp)
 pls_trans = pls.transform(data_norm)
 
 plotProjectionScatterMultiClass(pls_trans, resp, 2)
+
+
+data = adapml_data.DataImport(path_to_data)
+svm = adapml_classification.Classification(data.data, response1D, 'svm', .75, kfolds=3)
+rnf = adapml_classification.Classification(data.data, response1D, 'randomforest', .75, kfolds=3)
+
+
+adapml_classification.print_model_stats(svm, "SVM")
+adapml_classification.print_model_stats(rnf, "RF")
+"""
+
+regressiontext = """\
+# Regression
+
+Linear regression 
+
+"""
+
+regressioncode = """\
+
 """
 
 nb['cells'] = [nbf.v4.new_markdown_cell(title),
                nbf.v4.new_markdown_cell(stattext), nbf.v4.new_code_cell(statcode),
                nbf.v4.new_markdown_cell(dimtext), nbf.v4.new_code_cell(dimcode),
                nbf.v4.new_markdown_cell(clustertext), nbf.v4.new_code_cell(clustercode),
-               nbf.v4.new_markdown_cell(classiftext), nbf.v4.new_code_cell(classifcode)]
+               nbf.v4.new_markdown_cell(classiftext), nbf.v4.new_code_cell(classifcode),
+               nbf.v4.new_markdown_cell(regressiontext), nbf.v4.new_code_cell(regressioncode)]
 
 #New folder with a unique name
 folder_name = 'Analysis_' + time.strftime("%Y_%m_%d_%H_%M_%S") + "_" + str(uuid.uuid4())
@@ -126,13 +170,14 @@ os.mkdir(folder_name)
 
 #Make src folder and copy the python files
 os.mkdir(folder_name + '/src')
-os.system('cp adapml_chemometrics.py ' + folder_name + '/src')
-os.system('cp adapml_clustering.py ' + folder_name + '/src')
-os.system('cp adapml_classification.py ' + folder_name + '/src')
-os.system('cp adapml_statistics.py ' + folder_name + '/src')
-os.system('cp loadTestData.py ' + folder_name + '/src')
-os.system('cp OPLS.py ' + folder_name + '/src')
-os.system('cp adapml_data.py ' + folder_name + '/src')
+os.mkdir(folder_name + '/src/modules')
+os.system('cp modules/adapml_chemometrics.py ' + folder_name + '/src/modules')
+os.system('cp modules/adapml_clustering.py ' + folder_name + '/src/modules')
+os.system('cp modules/adapml_classification.py ' + folder_name + '/src/modules')
+os.system('cp modules/adapml_statistics.py ' + folder_name + '/src/modules')
+os.system('cp modules/loadTestData.py ' + folder_name + '/src/modules')
+os.system('cp modules/OPLS.py ' + folder_name + '/src/modules')
+os.system('cp modules/adapml_data.py ' + folder_name + '/src/modules')
 
 os.mkdir(folder_name + '/results')
 

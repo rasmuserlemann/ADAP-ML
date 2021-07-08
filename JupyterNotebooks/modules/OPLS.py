@@ -9,7 +9,7 @@ import numpy.linalg as lin
 #Scikit-Learn Libraries
 from sklearn.cross_decomposition import PLSRegression
 #Local Libraries
-import adapml_data
+import modules.adapml_data as adapml_data
         
 class opls:
     def __init__(self, num_comp):
