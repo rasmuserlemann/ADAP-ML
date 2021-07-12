@@ -39,11 +39,11 @@ import os
 
 reldir = os.getcwd()
 path_to_data = os.path.join(reldir, '..', 'data', '{}')
-#path_to_resp = os.path.join(reldir, '..', 'data', 'SCLC_study_responses_2.csv')
 
 data = adapml_data.DataImport(path_to_data)
 
 response1D = data.getResponseNew()
+#response1D = adapml_data.DataImport.getResponse(path_to_data)
 response2D = adapml_data.DataImport.getDummyResponse(response1D)
 
 variables = data.getVariableNames()
@@ -60,7 +60,7 @@ dimtext = """\
 # Dimension-Reduction
 
 PCA, LDA
-""" 
+"""
 
 dimcode = """\
 data.normalizeData("autoscale")
@@ -78,7 +78,7 @@ print("LDA Vectors"); lda.plotVectorLoadings(variables, 1)
 clustertext = """\
 # Clustering
 
-K-means, hierarchical, 
+K-means, hierarchical,
 
 """
 
@@ -147,7 +147,7 @@ adapml_classification.print_model_stats(rnf, "RF")
 regressiontext = """\
 # Regression
 
-Linear regression 
+Linear regression
 
 """
 
