@@ -1,7 +1,7 @@
 # Machine Learning and Statistics Library for ADAP
 # Focus: Statistics
-# Author: Chris Avery
-# Last Update: February 24 2020
+# Author: Chris Avery, Rasmus Erlemann
+# Last Update: July 10 2021
 
 #Basic Libraries
 import numpy as np
@@ -26,7 +26,6 @@ class Statistics:
         
         n_var = self.data.shape[1]
         
-        
         t = np.zeros(shape=(n_var))
         p = np.zeros(shape=(n_var))
         for i in range(n_var):
@@ -36,7 +35,6 @@ class Statistics:
                 tmp_data.append(self.data[inx[0], i])
             
             t[i], p[i] = stat.ttest_ind(tmp_data[0], tmp_data[1])
-            
         return t, p
     
     def anova_test(self):
@@ -101,8 +99,16 @@ class Statistics:
         
         plt.show()
 
+#import adapml_data
+#import os
+##### TESTING CODE 1
+#reldir = os.getcwd()
+#path_to_resp = os.path.join(reldir, '..', 'data', 'SCLC_study_responses_2.csv')
+#path_to_data = os.path.join(reldir, '..', 'data', 'SCLC_study_output_filtered_2.csv')
 
-##### TESTING CODE        
+#data = adapml_data.DataImport(path_to_data)
+#response1D = adapml_data.DataImport.getResponseNew(path_to_resp)
+##### TESTING CODE 2    
 #import adapml_data
 #path_to_data = 'C:\\Users\\csa97\\Research\\Projects\\DuLab\\ADAP-ML\\adap-ml\\data\\SCLC_study_output_filtered_2.csv'
 #path_to_resp = 'C:\\Users\\csa97\\Research\\Projects\\DuLab\\ADAP-ML\\adap-ml\\data\\SCLC_study_responses_2.csv'

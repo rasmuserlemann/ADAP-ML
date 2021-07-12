@@ -37,15 +37,13 @@ from scipy.cluster.hierarchy import dendrogram
 
 import os
 
-
 reldir = os.getcwd()
 path_to_data = os.path.join(reldir, '..', 'data', '{}')
-path_to_resp = os.path.join(reldir, '..', 'data', 'SCLC_study_responses_2.csv')
+#path_to_resp = os.path.join(reldir, '..', 'data', 'SCLC_study_responses_2.csv')
 
 data = adapml_data.DataImport(path_to_data)
-data2 = adapml_data.DataImport(path_to_data)
 
-response1D = adapml_data.DataImport.getResponse(path_to_resp)
+response1D = data.getResponseNew()
 response2D = adapml_data.DataImport.getDummyResponse(response1D)
 
 variables = data.getVariableNames()

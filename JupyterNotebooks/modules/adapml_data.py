@@ -33,6 +33,14 @@ class DataImport:
         r = pd.read_csv(path, index_col=0)
         r = r.to_numpy()
         return r
+
+    def getResponseNew(self):
+        resphalf = int(self.data.shape[0]/2)
+        r = [0 for x in range(resphalf)]
+        for x in range(resphalf): r.append(1)
+        r = pd.DataFrame(r)
+        r = r.to_numpy()
+        return r
     
     def getDummyResponse(resp):
         classes = np.unique(resp)
@@ -45,6 +53,7 @@ class DataImport:
             twod_resp[r,e] = 1
         
         return twod_resp
+    
     
     def flattenDummyResp(resp):
         m = resp.shape[0]

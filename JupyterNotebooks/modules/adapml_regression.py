@@ -1,7 +1,7 @@
-# Machine Learning and Statistics Library for ADAP
-# Focus: Clustering
-# Author: Chris Avery
-# Last Update: February 24 2020
+# Machine Learning and Regression Library for ADAP
+# Focus: Regression
+# Author: Rasmus Erlemann
+# Last Update: July 9 2021
 
 #Basic Libraries
 import numpy as np
@@ -12,7 +12,7 @@ import scipy.cluster.hierarchy as hier
 #Scikit-Learn Libraries
 import sklearn.cluster as clst
 
-class Clustering:
+class Regression:
     def __init__(self, data0, method0, num_clusters0):
         self.data = data0
         self.method = method0
@@ -25,7 +25,7 @@ class Clustering:
         else:
             print("Clustering Method "+self.method+" Not Available")
             
-    def kmeans_(self):
+    def linregres_(self):
         clust = clst.KMeans(self.num_clusters).fit(self.data)
         
         return clust
