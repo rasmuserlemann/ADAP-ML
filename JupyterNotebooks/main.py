@@ -27,6 +27,7 @@ import modules.adapml_classification as adapml_classification
 import modules.adapml_clustering as adapml_clustering
 import modules.adapml_chemometrics as adapml_chemometrics
 import modules.adapml_statistics as adapml_statistics
+import modules.adapml_regression as adapml_regression
 import numpy as np
 import modules.loadTestData as load_data
 import sklearn.preprocessing as pre
@@ -42,7 +43,7 @@ path_to_data = os.path.join(reldir, '..', 'data', '{}')
 
 data = adapml_data.DataImport(path_to_data)
 
-response1D = data.getResponseNew()
+response1D = data.resp
 #response1D = adapml_data.DataImport.getResponse(path_to_data)
 response2D = adapml_data.DataImport.getDummyResponse(response1D)
 
@@ -96,7 +97,7 @@ hierarchical_cluster.plot_dendrogram(samples)
 classiftext = """\
 # Classification
 
-PLS-DA
+PLS-DA, SVM, random forests, logstic regression
 
 """
 
@@ -142,6 +143,9 @@ rnf = adapml_classification.Classification(data.data, response1D, 'randomforest'
 
 adapml_classification.print_model_stats(svm, "SVM")
 adapml_classification.print_model_stats(rnf, "RF")
+
+logistic = adapml_classification.Classification(data.data, response1D, 'logistic', .25)
+print(logistic)
 """
 
 regressiontext = """\
@@ -152,7 +156,8 @@ Linear regression
 """
 
 regressioncode = """\
-
+reg = adapml_regression.Regression(data.data, "linear")
+reg.linear
 """
 
 nb['cells'] = [nbf.v4.new_markdown_cell(title),

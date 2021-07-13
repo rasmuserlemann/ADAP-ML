@@ -1,7 +1,7 @@
 # Machine Learning and Statistics Library for ADAP
 # Focus: Data Import
-# Author: Chris Avery, Rasmus Erlemann
-# Last Update: July 13 2021
+# Author: Chris Avery
+# Last Update: February 24 2020
 
 #Basic Libraries
 import numpy as np

@@ -119,8 +119,8 @@ samples = data.getSampleNames()
 tmodel = Statistics(data.data, 'anova', response1D)
 tmodel.plot_logp_values(variables)
 tmodel.plot_volcano_t(variables)
-
 """
+
 ##### TESTING CODE 2    
 #import adapml_data
 #path_to_data = 'C:\\Users\\csa97\\Research\\Projects\\DuLab\\ADAP-ML\\adap-ml\\data\\SCLC_study_output_filtered_2.csv'

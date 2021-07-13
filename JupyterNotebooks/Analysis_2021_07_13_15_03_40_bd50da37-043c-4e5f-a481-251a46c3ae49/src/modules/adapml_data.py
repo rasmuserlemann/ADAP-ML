@@ -1,7 +1,7 @@
 # Machine Learning and Statistics Library for ADAP
 # Focus: Data Import
-# Author: Chris Avery, Rasmus Erlemann
-# Last Update: July 13 2021
+# Author: Chris Avery
+# Last Update: February 24 2020
 
 #Basic Libraries
 import numpy as np
@@ -32,8 +32,7 @@ class DataImport:
     
     def getResponse(path):
         r = pd.read_csv(path, index_col=0)
-        r = pd.DataFrame(r.iloc[:,0])
-        r = r.to_numpy()
+        r = pd.DataFrame(r["Response"]).to_numpy()
         #resp = r[:,0].astype(int)
         #resparray = pd.DataFrame([[el] for el in resp])
         return r
