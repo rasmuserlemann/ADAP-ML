@@ -64,7 +64,10 @@ t_test.plot_volcano_t(variables)
 dimtext = """\
 # Dimension-Reduction
 
-PCA, LDA
+Dimension-reduction methods are used to condense high dimensional data down to dimensions which provide the most information. We have implemented the principal component analysis (PCA). It performs a change of basis and the new basis is chosen, such that the i-th principal component is orthogonal to the first i-1 principal components and the direction maximizes the variance of the projected data.
+We use the Python library sklearn for both PCA and LDA.
+
+LDA
 """
 
 dimcode = """\
