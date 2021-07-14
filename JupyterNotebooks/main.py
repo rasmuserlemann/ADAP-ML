@@ -22,6 +22,10 @@ T-test
 
 
 statcode = """\
+from platform import python_version
+
+print(python_version())
+
 import modules.adapml_data as adapml_data
 import modules.adapml_classification as adapml_classification
 import modules.adapml_clustering as adapml_clustering
