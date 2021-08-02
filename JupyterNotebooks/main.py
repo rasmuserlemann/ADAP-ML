@@ -5,6 +5,7 @@ import time
 import uuid
 import sys
 import modules.ConstructJupyterNotebook as Jup
+import modules.config as config
 from nbconvert.preprocessors import ExecutePreprocessor
 
 #Read in data location as an argument in terminal
@@ -13,10 +14,11 @@ datafile = str(sys.argv[1])
 nb = nbf.v4.new_notebook()
 
 #Take True/False values from the configuration file
-Jup.volcano_text = Jup.volcano_text * True
+Jup.volcano_text = Jup.volcano_text * config.volcano
+Jup.volcano_code = Jup.volcano_code * config.volcano
 
 #Combine jupyter notebook text and code cells
-nb['cells'] = [nbf.v4.new_markdown_cell(Jup.title),
+nb['cells'] = [
                nbf.v4.new_markdown_cell(Jup.statistics_text),
                nbf.v4.new_markdown_cell(Jup.t_test_text), nbf.v4.new_code_cell(Jup.t_test_code(datafile)),
                nbf.v4.new_markdown_cell(Jup.volcano_text), nbf.v4.new_code_cell(Jup.volcano_code),
