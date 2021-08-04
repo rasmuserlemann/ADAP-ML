@@ -119,7 +119,7 @@ In this module we use various different clustering methods on spectra. We use sc
 kmeans_text = """\
 ## K-Means Clustering
 
-K-means clustering starts with considering 
+K-means clustering aims to partition the data into $k$ sets and to minimize the within-cluster sum of squares (WCSS). It is solved by either Lloyd’s or Elkan’s algorithm and we use sklearn module in Python.
 """
 
 kmeans_code = """\
