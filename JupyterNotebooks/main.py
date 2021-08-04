@@ -1,7 +1,6 @@
 import nbformat as nbf
 import os
 import time
-#import config
 import uuid
 import sys
 import modules.ConstructJupyterNotebook as Jup
@@ -65,6 +64,6 @@ with open(folder_name + '/src/report.ipynb') as f:
 with open(folder_name + '/src/report_executed.ipynb', 'wt') as f:
     nbf.write(nb, f)
 
-os.system('jupyter nbconvert --output-dir=' + folder_name + '/results --to PDF --output report.pdf --no-input ' + folder_name + '/src/report_executed.ipynb')
-os.system('jupyter nbconvert --output-dir=' + folder_name + '/results --to PDF --output report_code.pdf ' + folder_name + '/src/report_executed.ipynb')
+os.system('jupyter nbconvert --output-dir=' + folder_name + '/results --to PDF --template=./revtex.tplx --output report.pdf --no-input ' + folder_name + '/src/report_executed.ipynb' )
+os.system('jupyter nbconvert --output-dir=' + folder_name + '/results --to PDF --template=./revtex.tplx --output report_code.pdf ' + folder_name + '/src/report_executed.ipynb' )
 

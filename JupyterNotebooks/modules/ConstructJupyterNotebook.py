@@ -2,20 +2,18 @@ import nbformat as nbf
 import os
 import sys
 
-title = """\
-% ADAP-ML Report
-"""
-
 statistics_text = """\
 # Statistics
 
-Describe the module blabla
+In the statistics module we analyze data for different responses and at different spectral peak locations.
+We use Python package scipy in this module.
 """
 
 t_test_text = """\
 ## T-Test
-
-Explain the test labla
+T-test checks for difference in the mean between two sample from different responses. We assume the data is independent and follows the normality assumption.
+Let $x_1, \ldots, x_n$ and $y_1,\ldots ,y_m$ be the two samples and we test whether the means are equal. The null hypothesis states means $\mu_1$ and $\mu_2$ are equal
+and the alternative hypothesis states they are not equal. If the p-value is lower than the chosen significance level, we can reject the null hypothesis, i.e. the samples do not have the same means.
 """
 
 def t_test_code(datafile):
@@ -59,7 +57,8 @@ def t_test_code(datafile):
 volcano_text = """\
 ## Volcano Plot
 
-blabla
+Volcano plot is a scatter plot which demonstrates magnitude between the responses and t-test significance of the data. We can choose a significance level and fold change limit
+to specify the rectangle of interest.
 """
 
 volcano_code = """\
@@ -95,7 +94,8 @@ print("PCA Projections");pca.plotProjectionScatterMultiClass(2, labels=["Healthy
 
 lda_text = """\
 ## Linear Discriminant Analysis
-bla
+Linear discriminant analysis is a classifier with a linear decision boundary. We assume normality and fit conditional densities $p(x\; | \; y=0)$ and $p(x \; | \; y=1)$ with mean and covariance parameters $(\mu_0,\sigma_0)$ and $(\mu_1,\sigma_1)$, where $x,\mu_0$ and $\mu_1$ are vectors.
+Dimensionality-reduction is done by projecting the input to the most discriminative directions.
 """
 
 lda_code = """\
@@ -112,11 +112,14 @@ print("LDA Projections");lda.plotProjectionScatterMultiClass(1, labels=["Healthy
 cluster_text = """\
 # Clustering
 
+In this module we use various different clustering methods on spectra. We use scipy and sklearn libraries for it.
+
 """
 
 kmeans_text = """\
 ## K-Means Clustering
 
+K-means clustering starts with considering 
 """
 
 kmeans_code = """\
