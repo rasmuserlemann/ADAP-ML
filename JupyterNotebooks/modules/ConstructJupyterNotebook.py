@@ -125,6 +125,8 @@ kmeans_cluster.getClusterResults(samples)
 hier_text = """\
 ## Hierarchical Clustering
 
+Hierarchical clustering builds hierarchies of clusters based on a chosen metric and a linkage scheme.
+We used cosine distance and average linkage scheme.
 """
 
 hier_code = """\
@@ -136,6 +138,9 @@ hierarchical_cluster.plot_dendrogram(samples)
 classif_text = """\
 # Classification
 
+Classification methods aim to classify the response of samples. The given data is separated into
+a training set and a testing set. The model parameters are found from the training set and the testing set is used to quantify the model accuracy.
+The methods are from sklearn package.
 """
 
 plsda_text = """\
@@ -182,6 +187,8 @@ plotProjectionScatterMultiClass(pls_trans, resp, 2)
 svm_text = """\
 ## Support Vector Machines
 
+Classification via SVM is done by fitting a linear plane to the latent space but only considering a subset of inputs in the fitting process.
+The quantity $R^2$ measures what percentage of variation was explained by the model in the training set. The quantity $Q^2$ shows the same measurement but for the test data set.
 """
 
 svm_code = """\
@@ -195,6 +202,9 @@ adapml_classification.print_model_stats(svm, "SVM")
 rf_text = """\
 ## Random Forest
 
+Random forests is an ensemble classification method.
+It works by constructing multiple decision trees based on the training data and then choosing the class, chosen by the most number of decision trees.
+The quantity $R^2$ measures what percentage of variation was explained by the model in the training set. The quantity $Q^2$ shows the same measurement but for the test data set.
 """
 
 rf_code = """\
@@ -207,6 +217,8 @@ adapml_classification.print_model_stats(rnf, "RF")
 logistic_text = """\
 ## Logistic Regression
 
+Logistic regression uses a logistic function to model a binary dependent variable. The confusion matrix displays the accuracy of the model for the test data set.
+We use the packages sklearn for the logistic regression and seaborn for the confusion matrix.
 """
 
 logistic_code = """\
