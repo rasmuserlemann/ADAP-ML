@@ -66,9 +66,6 @@ t_test.plot_volcano_t(variables)
 """
 
 
-
-
-
 dim_text = """\
 # Dimension-Reduction
 
@@ -105,21 +102,19 @@ print("LDA Projections");lda.plotProjectionScatterMultiClass(1, labels=["Healthy
 
 """
 
-
-
-
-
 cluster_text = """\
 # Clustering
 
-In this module we use various different clustering methods on spectra. We use scipy and sklearn libraries for it.
+In this module we use various different clustering methods on spectra. Clustering is done with scipy and sklearn libraries.
 
 """
 
 kmeans_text = """\
 ## K-Means Clustering
 
-K-means clustering aims to partition the data into $k$ sets and to minimize the within-cluster sum of squares (WCSS). It is solved by either Lloyd’s or Elkan’s algorithm and we use sklearn module in Python.
+K-means clustering aims to partition the data into $k$ sets and to minimize the Euclidian within-cluster sum of squares (WCSS)
+$$WCSS=\sum_{i=1}^{k}\sum_{x_j\in C_i}\|x_j-\mu_i\|_2^2$$
+where $x_1,\ldots,x_n$ is the data and $\mu_i$ is the centroid of $C_i$ cluster. It is solved by either Lloyd’s or Elkan’s algorithm and we use sklearn module in Python.
 """
 
 kmeans_code = """\
