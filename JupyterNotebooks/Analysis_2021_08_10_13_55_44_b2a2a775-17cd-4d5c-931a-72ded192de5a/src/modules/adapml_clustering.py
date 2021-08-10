@@ -32,7 +32,7 @@ class Clustering:
         return clust
     
     def dbscan_(self):
-        clust = clst.DBSCAN().fit(self.data)
+        clust = clst.DBSCAN().fit(self.data
         return clust 
 
     def hierarchical_(self):

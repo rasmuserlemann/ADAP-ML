@@ -120,6 +120,9 @@ where $x_1,\ldots,x_n$ is the data and $\mu_i$ is the centroid of $C_i$ cluster.
 kmeans_code = """\
 kmeans_cluster = adapml_clustering.Clustering(data.data, 'kmeans', 3)
 kmeans_cluster.getClusterResults(samples)
+
+dbscan_cluster = adapml_clustering.Clustering(data.data, 'dbscan', 3)
+dbscan_cluster.getClusterResults(samples)
 """
 
 hier_text = """\
