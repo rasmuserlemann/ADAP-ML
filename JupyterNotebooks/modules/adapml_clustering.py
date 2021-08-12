@@ -11,6 +11,8 @@ import matplotlib.pyplot as plt
 import scipy.cluster.hierarchy as hier
 #Scikit-Learn Libraries
 import sklearn.cluster as clst
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import normalize
 
 class Clustering:
     def __init__(self, data0, method0, num_clusters0):
@@ -32,7 +34,11 @@ class Clustering:
         return clust
     
     def dbscan_(self):
-        clust = clst.DBSCAN().fit(self.data)
+        scaler = StandardScaler()
+        data_scaled = scaler.fit_transform(self.data)
+        data_normalized = normalize(data_scaled)
+        data_normalized = pd.DataFrame(data_normalized)
+        clust = clst.DBSCAN(eps = 0.0375, min_samples = 3).fit(data_normalized)
         return clust 
 
     def hierarchical_(self):
