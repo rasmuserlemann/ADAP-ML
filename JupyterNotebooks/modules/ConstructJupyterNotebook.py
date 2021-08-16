@@ -109,6 +109,11 @@ In this module we use various different clustering methods on spectra. Clusterin
 
 """
 
+cluster_code = """\
+silhouette = adapml_clustering.Clustering(data.data, 'silhouette', 3)
+nr_clusters = silhouette.clustnr
+"""
+
 kmeans_text = """\
 ## K-Means Clustering
 
@@ -118,11 +123,8 @@ where $x_1,\ldots,x_n$ is the data and $\mu_i$ is the centroid of $C_i$ cluster.
 """
 
 kmeans_code = """\
-kmeans_cluster = adapml_clustering.Clustering(data.data, 'kmeans', 3)
+kmeans_cluster = adapml_clustering.Clustering(data.data, 'kmeans', nr_clusters)
 kmeans_cluster.getClusterResults(samples)
-
-dbscan_cluster = adapml_clustering.Clustering(data.data, 'dbscan', 3)
-dbscan_cluster.getClusterResults(samples)
 """
 
 dbscan_text = """\
@@ -131,7 +133,7 @@ dbscan_text = """\
 """
 
 dbscan_code = """\
-dbscan_cluster = adapml_clustering.Clustering(data.data, 'dbscan', 3)
+dbscan_cluster = adapml_clustering.Clustering(data.data, 'dbscan', nr_clusters)
 dbscan_cluster.getClusterResults(samples)
 """
 
@@ -141,7 +143,7 @@ birch_text = """\
 """
 
 birch_code = """\
-birch_cluster = adapml_clustering.Clustering(data.data, 'birch', 3)
+birch_cluster = adapml_clustering.Clustering(data.data, 'birch', nr_clusters)
 birch_cluster.getClusterResults(samples)
 """
 
@@ -153,7 +155,7 @@ We used cosine distance and average linkage scheme.
 """
 
 hier_code = """\
-hierarchical_cluster = adapml_clustering.Clustering(data.data, 'hierarchical', 3)
+hierarchical_cluster = adapml_clustering.Clustering(data.data, 'hierarchical', nr_clusters)
 hierarchical_cluster.getClusterResults(samples)
 hierarchical_cluster.plot_dendrogram(samples)
 """
