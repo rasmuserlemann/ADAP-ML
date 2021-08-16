@@ -28,7 +28,7 @@ class Regression:
             for var2 in range(nrvar):
                 x = self.data[:,var1]
                 y = self.data[:,var2]
-                R2mat[var1,var2] = r2_score(x,y)
+                R2mat[var1,var2] = max(0,r2_score(x,y))
         plt.imshow(R2mat, cmap='hot', interpolation='nearest')
         cax = plt.axes([0.85, 0.1, 0.075, 0.8])
         plt.colorbar(cax=cax)
