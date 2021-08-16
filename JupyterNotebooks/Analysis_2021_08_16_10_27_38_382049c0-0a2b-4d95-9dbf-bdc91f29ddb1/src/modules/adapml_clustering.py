@@ -24,8 +24,6 @@ class Clustering:
             self.cluster = self.kmeans_()
         elif (self.method == "hierarchical"):
             self.cluster = self.hierarchical_()
-        elif (self.method == "birch"):
-            self.cluster = self.birch_()
         elif (self.method == "dbscan"):
             self.cluster = self.dbscan_()
         else:
@@ -36,11 +34,7 @@ class Clustering:
         return clust
     
     def dbscan_(self):
-        clust = clst.DBSCAN(eps = 0.01, min_samples = 3).fit(self.data)
-        return clust 
-        
-    def birch_(self):
-        clust = clst.Birch(n_clusters=self.num_clusters).fit(self.data)
+        clust = clst.DBSCAN(eps = 1, min_samples = 3).fit(data.data)
         return clust 
 
     def hierarchical_(self):
@@ -97,18 +91,4 @@ class Clustering:
         # Plot the corresponding dendrogram
         plt.figure(figsize=(14, 9))
         hier.dendrogram(linkage_matrix, labels=sample_labels)
-
-''''  
-### Testing
-import os      
-os.chdir('/Users/rerleman/Documents/Git/adap-ml/JupyterNotebooks/modules')
-import adapml_data
-##### TESTING CODE 1
-reldir = os.getcwd()
-path_to_data = os.path.join(reldir, '..', 'data', 'SCLC_study_output_filtered_2.csv')
-
-data = adapml_data.DataImport(path_to_data)
-samples = data.getSampleNames()
-ward_cluster = Clustering(data.data, 'birch', 3)
-print(ward_cluster.cluster.labels_)
-'''
+ 

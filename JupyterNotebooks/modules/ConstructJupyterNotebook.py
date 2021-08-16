@@ -135,6 +135,16 @@ dbscan_cluster = adapml_clustering.Clustering(data.data, 'dbscan', 3)
 dbscan_cluster.getClusterResults(samples)
 """
 
+birch_text = """\
+## BIRCH Clustering
+
+"""
+
+birch_code = """\
+birch_cluster = adapml_clustering.Clustering(data.data, 'birch', 3)
+birch_cluster.getClusterResults(samples)
+"""
+
 hier_text = """\
 ## Hierarchical Clustering
 
