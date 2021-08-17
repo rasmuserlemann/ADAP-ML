@@ -147,6 +147,26 @@ birch_cluster = adapml_clustering.Clustering(data.data, 'birch', nr_clusters)
 birch_cluster.getClusterResults(samples)
 """
 
+gaussian_text = """\
+## Gaussian Mixture Clustering
+
+"""
+
+gaussian_code = """\
+gaussian_cluster = adapml_clustering.Clustering(data.data, 'gaussian', nr_clusters)
+gaussian_cluster.getClusterResults(samples)
+"""
+
+meanshift_text = """\
+## Mean Shift Clustering
+
+"""
+
+meanshift_code = """\
+meanshift_cluster = adapml_clustering.Clustering(data.data, 'meanshift', nr_clusters)
+meanshift_cluster.getClusterResults(samples)
+"""
+
 hier_text = """\
 ## Hierarchical Clustering
 

@@ -28,6 +28,8 @@ nb['cells'] = [
                nbf.v4.new_markdown_cell(Jup.kmeans_text), nbf.v4.new_code_cell(Jup.kmeans_code),
                nbf.v4.new_markdown_cell(Jup.birch_text), nbf.v4.new_code_cell(Jup.birch_code),
                nbf.v4.new_markdown_cell(Jup.dbscan_text), nbf.v4.new_code_cell(Jup.dbscan_code),
+               nbf.v4.new_markdown_cell(Jup.meanshift_text), nbf.v4.new_code_cell(Jup.meanshift_code),
+               nbf.v4.new_markdown_cell(Jup.gaussian_text), nbf.v4.new_code_cell(Jup.gaussian_code),
                nbf.v4.new_markdown_cell(Jup.hier_text), nbf.v4.new_code_cell(Jup.hier_code),
                nbf.v4.new_markdown_cell(Jup.classif_text),
                nbf.v4.new_markdown_cell(Jup.plsda_text), nbf.v4.new_code_cell(Jup.plsda_code),
