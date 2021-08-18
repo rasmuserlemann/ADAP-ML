@@ -15,6 +15,8 @@ from sklearn import mixture
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import normalize
 from yellowbrick.cluster import KElbowVisualizer
+from sklearn.neighbors import NearestNeighbors
+
 
 class Clustering:
     def __init__(self, data0, method0, num_clusters0):
@@ -57,7 +59,11 @@ class Clustering:
         return clust
     
     def dbscan_(self):
-        clust = clst.DBSCAN(eps = 0.01, min_samples = 3).fit(self.data)
+        neigh = NearestNeighbors(n_neighbors=2)
+        nbrs = neigh.fit(self.data)
+        distances, indices = nbrs.kneighbors(self.data)
+        epshat = np.max(distances)
+        clust = clst.DBSCAN(eps = epshat, min_samples = 2).fit(self.data)
         return clust 
         
     def birch_(self):
@@ -135,6 +141,6 @@ path_to_data = os.path.join(reldir, '..', 'data', 'SCLC_study_output_filtered_2.
 
 data = adapml_data.DataImport(path_to_data)
 samples = data.getSampleNames()
-ward_cluster = Clustering(data.data, 'kmeans', 2)
+ward_cluster = Clustering(data.data, 'dbscan', 2)
 ward_cluster.getClusterResults(samples)
 '''
