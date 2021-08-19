@@ -11,6 +11,6 @@ For testing:
 
 - Execute the JupyterNotebooks/main.py file with test data
 
-      $ python3 main.py SCLC_study_output_filtered_2.csv
+      $ python main.py SCLC_study_output_filtered_2.csv
       
-- The generated file is in JupyterNotebooks folder under Analysis_DATE_UNIQUE_CODE
+- The generated folder is in JupyterNotebooks under Analysis_DATE_UNIQUE_CODE
