@@ -105,7 +105,7 @@ print("LDA Projections");lda.plotProjectionScatterMultiClass(1, labels=["Healthy
 cluster_text = """\
 # Clustering
 
-In this module we use various different clustering methods on spectra. Clustering is done with scipy and sklearn libraries.
+In this module we use various different clustering methods on spectra. We use the Silhouette method to find the optimal number of clusters. Clustering is done with scipy and sklearn libraries.
 
 """
 
@@ -117,9 +117,7 @@ nr_clusters = silhouette.clustnr
 kmeans_text = """\
 ## K-Means Clustering
 
-K-means clustering aims to partition the data into $k$ sets and to minimize the Euclidian within-cluster sum of squares (WCSS)
-$$WCSS=\sum_{i=1}^{k}\sum_{x_j\in C_i}\|x_j-\mu_i\|_2^2$$
-where $x_1,\ldots,x_n$ is the data and $\mu_i$ is the centroid of $C_i$ cluster. It is solved by either Lloyd’s or Elkan’s algorithm and we use sklearn module in Python.
+K-means clustering aims to partition the data into $k$ sets and to minimize the Euclidian within-cluster sum of squares (WCSS). It is solved by either Lloyd’s or Elkan’s algorithm and we use sklearn module in Python.
 """
 
 kmeans_code = """\
@@ -129,6 +127,8 @@ kmeans_cluster.getClusterResults(samples)
 
 dbscan_text = """\
 ## DBSCAN Clustering
+
+DBSCAN is a non-parametric density-based clustering algorithm. It clusters together nearby neighbors, marking further away points as outliers, as they are in the low density area.
 
 """
 
@@ -140,6 +140,8 @@ dbscan_cluster.getClusterResults(samples)
 birch_text = """\
 ## BIRCH Clustering
 
+BIRCH (balance iterative reducing and clustering using hierarchies) is a hierarchical clustering method. The hierarchy is created based on the linear sum and the square sum of data points.
+
 """
 
 birch_code = """\
@@ -149,6 +151,8 @@ birch_cluster.getClusterResults(samples)
 
 gaussian_text = """\
 ## Gaussian Mixture Clustering
+
+Gaussian mixture models (GMMs) cluster the data by fitting a mixture of Gaussian models to the data and clustering together data points with similar parameter estimates. It's closely related to k-means clustering but allows for less restrictive cluster shapes. K-means fits a multi-dimensional ball as the perimeter, but GMMs can also fit ellipsoidal shapes and other shapes.
 
 """
 
@@ -160,6 +164,7 @@ gaussian_cluster.getClusterResults(samples)
 meanshift_text = """\
 ## Mean Shift Clustering
 
+The mean shift algorithm is a nonparametric clustering technique which does not require prior knowledge of the number of clusters, and does not constrain the shape of the clusters. It works by starting at data points and iteratevely finding the convergence points for kernel estimate gradient.
 """
 
 meanshift_code = """\
@@ -280,6 +285,8 @@ regression_text = """\
 
 linreg_text = """\
 ## Linear Regression
+
+Linear regression fits a linear plane between the dependant variables and the response. The linear plane models the relationship between them and allows for prediction or explain variation.
 
 """
 
