@@ -105,13 +105,13 @@ print("LDA Projections");lda.plotProjectionScatterMultiClass(1, labels=["Healthy
 cluster_text = """\
 # Clustering
 
-In this module we use various different clustering methods on spectra. We use the Silhouette method to find the optimal number of clusters. Clustering is done with scipy and sklearn libraries.
+In this module we use various different clustering methods on spectra. We use the elbow method to find the optimal number of clusters. Clustering is done with scipy and sklearn libraries.
 
 """
 
 cluster_code = """\
-silhouette = adapml_clustering.Clustering(data.data, 'silhouette', 3)
-nr_clusters = silhouette.clustnr
+elbow = adapml_clustering.Clustering(data.data, 'elbow', 3)
+nr_clusters = elbow.clustnr
 """
 
 kmeans_text = """\

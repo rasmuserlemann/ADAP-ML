@@ -14,8 +14,11 @@ import sklearn.cluster as clst
 from sklearn import mixture
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import normalize
-from yellowbrick.cluster import KElbowVisualizer
+from sklearn.metrics import silhouette_score
 from sklearn.neighbors import NearestNeighbors
+from scipy.spatial.distance import cdist
+
+from kneed import KneeLocator
 
 
 class Clustering:
@@ -28,8 +31,8 @@ class Clustering:
             self.cluster = self.kmeans_()
         elif (self.method == "hierarchical"):
             self.cluster = self.hierarchical_()
-        elif (self.method == "silhouette"):
-            self.clustnr = self.silhouette_()
+        elif (self.method == "elbow"):
+            self.clustnr = self.elbow_()
         elif (self.method == "birch"):
             self.cluster = self.birch_()
         elif (self.method == "gaussian"):
@@ -40,11 +43,14 @@ class Clustering:
             self.cluster = self.dbscan_()
         else:
             print("Clustering Method "+self.method+" Not Available")
-    def silhouette_(self):
-        visualizer = KElbowVisualizer(clst.KMeans(), k=(2,30),metric='silhouette', timings= True)
-        visualizer.fit(self.data)        
-        visualizer.show()
-        return(visualizer.elbow_value_)
+    def elbow_(self):
+        distortions = []
+        K = range(1,int(len(self.data)/2))
+        for k in K:
+            kmeanModel = clst.KMeans(n_clusters=k).fit(self.data)
+            distortions.append(sum(np.min(cdist(self.data, kmeanModel.cluster_centers_, 'euclidean'), axis=1)) / self.data.shape[0])
+        kn = KneeLocator(K, distortions, curve='convex', direction='decreasing')
+        return(kn.knee)
             
     def kmeans_(self):
         clust = clst.KMeans(self.num_clusters).fit(self.data)   
@@ -141,6 +147,6 @@ path_to_data = os.path.join(reldir, '..', 'data', 'SCLC_study_output_filtered_2.
 
 data = adapml_data.DataImport(path_to_data)
 samples = data.getSampleNames()
-ward_cluster = Clustering(data.data, 'dbscan', 2)
-ward_cluster.getClusterResults(samples)
+ward_cluster = Clustering(data.data, 'elbow', 2)
+print(ward_cluster.clustnr)
 '''
