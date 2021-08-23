@@ -110,8 +110,8 @@ In this module we use various different clustering methods on spectra. We use th
 """
 
 cluster_code = """\
-elbow = adapml_clustering.Clustering(data.data, 'elbow', 3)
-nr_clusters = elbow.clustnr
+silhouette = adapml_clustering.Clustering(data.data, 'silhouette', 3)
+nr_clusters = silhouette.clustnr
 """
 
 kmeans_text = """\

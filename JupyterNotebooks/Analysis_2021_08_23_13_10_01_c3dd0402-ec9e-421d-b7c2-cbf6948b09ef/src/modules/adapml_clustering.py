@@ -17,6 +17,7 @@ from sklearn.preprocessing import normalize
 from sklearn.metrics import silhouette_score
 from sklearn.neighbors import NearestNeighbors
 from scipy.spatial.distance import cdist
+from scipy.spatial import distance
 
 from kneed import KneeLocator
 
@@ -33,6 +34,8 @@ class Clustering:
             self.cluster = self.hierarchical_()
         elif (self.method == "elbow"):
             self.clustnr = self.elbow_()
+        elif (self.method == "silhouette"):
+            self.clustnr = self.silhouette()
         elif (self.method == "birch"):
             self.cluster = self.birch_()
         elif (self.method == "gaussian"):
@@ -69,7 +72,7 @@ class Clustering:
         nbrs = neigh.fit(self.data)
         distances, indices = nbrs.kneighbors(self.data)
         epshat = np.max(distances)
-        clust = clst.DBSCAN(eps = epshat, min_samples = 2).fit(self.data)
+        clust = clst.DBSCAN(eps = epshat+1, min_samples = 2).fit(self.data)
         return clust 
         
     def birch_(self):
@@ -113,6 +116,42 @@ class Clustering:
     
         print(clusters_results)
     
+    def silhouette(self):
+        cutoff = int(len(self.data)/2)
+        Svec = []
+        for clustnr in range(2, cutoff):
+            clust = clst.KMeans(clustnr).fit(self.data)  
+            clustlabels = np.array(clust.labels_)
+            S = []
+            for ind in range(len(self.data)):
+                a_all = []
+                b_all = []
+                inside = self.data[np.where(clustlabels==clustlabels[ind])]
+                if (len(inside)==1):
+                    S.append(0)
+                    continue
+                outside = self.data[np.where(clustlabels!=clustlabels[ind])]
+                for datain in inside:
+                    a_all.append(distance.euclidean(self.data[ind], datain))
+                for dataout in outside:
+                    b_all.append(distance.euclidean(self.data[ind], dataout))
+                a = (1/(len(inside)-1))*np.mean(a_all)
+                b = np.mean(np.multiply(b_all, 1/len(outside)))
+                S.append((b-a)/(max(a,b)))
+            Svec.append(np.mean(S))
+        return(Svec.index(max(Svec))+2)
+    
+    def silhouette2(self):
+        cutoff = int(len(self.data)/2)
+        Svec = []
+        for clustnr in range(2, cutoff):
+            clusterer = clst.KMeans(clustnr)
+            preds = clusterer.fit_predict(self.data)
+            score = silhouette_score(self.data, preds)
+            Svec.append(score)
+        return(Svec.index(max(Svec))+2)
+    
+    
     def plot_dendrogram(self, sample_labels):
         # Authors: Mathew Kallada (found online)
         # Link: https://github.com/scikit-learn/scikit-learn/blob/70cf4a676caa2d2dad2e3f6e4478d64bcb0506f7/examples/cluster/
@@ -134,7 +173,6 @@ class Clustering:
         # Plot the corresponding dendrogram
         plt.figure(figsize=(14, 9))
         hier.dendrogram(linkage_matrix, labels=sample_labels)
-
 '''
 ### Testing
 import os      
@@ -148,5 +186,5 @@ path_to_data = os.path.join(reldir, '..', 'data', 'SCLC_study_output_filtered_2.
 data = adapml_data.DataImport(path_to_data)
 samples = data.getSampleNames()
 ward_cluster = Clustering(data.data, 'elbow', 2)
-print(ward_cluster.clustnr)
+print(ward_cluster.silhouette())
 '''

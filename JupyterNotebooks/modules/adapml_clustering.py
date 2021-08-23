@@ -34,6 +34,8 @@ class Clustering:
             self.cluster = self.hierarchical_()
         elif (self.method == "elbow"):
             self.clustnr = self.elbow_()
+        elif (self.method == "silhouette"):
+            self.clustnr = self.silhouette()
         elif (self.method == "birch"):
             self.cluster = self.birch_()
         elif (self.method == "gaussian"):
@@ -137,7 +139,7 @@ class Clustering:
                 b = np.mean(np.multiply(b_all, 1/len(outside)))
                 S.append((b-a)/(max(a,b)))
             Svec.append(np.mean(S))
-        return(Svec)
+        return(Svec.index(max(Svec))+2)
     
     def silhouette2(self):
         cutoff = int(len(self.data)/2)
@@ -147,7 +149,7 @@ class Clustering:
             preds = clusterer.fit_predict(self.data)
             score = silhouette_score(self.data, preds)
             Svec.append(score)
-        return(Svec)
+        return(Svec.index(max(Svec))+2)
     
     
     def plot_dendrogram(self, sample_labels):
@@ -171,7 +173,6 @@ class Clustering:
         # Plot the corresponding dendrogram
         plt.figure(figsize=(14, 9))
         hier.dendrogram(linkage_matrix, labels=sample_labels)
-
 '''
 ### Testing
 import os      
@@ -186,6 +187,4 @@ data = adapml_data.DataImport(path_to_data)
 samples = data.getSampleNames()
 ward_cluster = Clustering(data.data, 'elbow', 2)
 print(ward_cluster.silhouette())
-
-print(ward_cluster.silhouette2())
 '''

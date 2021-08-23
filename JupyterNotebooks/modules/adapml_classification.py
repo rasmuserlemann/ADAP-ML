@@ -1,6 +1,6 @@
 # Machine Learning and Statistics Library for ADAP
 # Focus: Classification
-# Author: Chris Avery, Rasmus Erlemann
+# Author: Rasmus Erlemann, Chris Avery
 # Last Update: July 13 2021
 
 #Basic Libraries
