@@ -291,8 +291,9 @@ Linear regression fits a linear plane between the dependant variables and the re
 """
 
 linreg_code = """\
-reg = adapml_regression.Regression(data.data, "linear")
+reg = adapml_regression.Regression(data.data, "linear", 0.25)
 reg.linear
+reg.DisplaySampleNames(data.getSampleNames())
 """
 
 
