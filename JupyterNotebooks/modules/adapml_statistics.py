@@ -14,6 +14,8 @@ class Statistics:
         self.data = data0
         self.method = method0
         self.resp = resp0
+        self.alpha1 = self.Bonferroni()[0]
+        self.alpha2 = self.Bonferroni()[1]
         
         if (self.method == "ttest"):
             self.score, self.p = self.two_way_t_test_()
@@ -105,9 +107,7 @@ class Statistics:
         k = len(self.data)/c
         alpha1 = 0.05/k
         alpha2 = 0.01/k
-        print("The significance level after the Bonferroni correction with FWER=0.05 is " + str(alpha1))
-        print("The significance level after the Bonferroni correction with FWER=0.01 is " + str(alpha2))
-
+        return([alpha1,alpha2])
 '''
 import adapml_data
 import os
@@ -125,9 +125,8 @@ response1D = adapml_data.DataImport.getResponse(path_to_data)
 variables = data.getVariableNames()
 samples = data.getSampleNames()
 tmodel = Statistics(data.data, 'ttest', response1D)
-print(tmodel.Bonferroni())
+tmodel.Bonferroni()
 '''
-
 ##### TESTING CODE 2    
 #import adapml_data
 #path_to_data = 'C:\\Users\\csa97\\Research\\Projects\\DuLab\\ADAP-ML\\adap-ml\\data\\SCLC_study_output_filtered_2.csv'

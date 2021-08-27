@@ -14,11 +14,14 @@ class Statistics:
         self.data = data0
         self.method = method0
         self.resp = resp0
+        self.alpha1 = self.Bonferroni()[0]
+        self.alpha2 = self.Bonferroni()[1]
+        print(self.alpha1)
         
         if (self.method == "ttest"):
             self.score, self.p = self.two_way_t_test_()
         elif (self.method == "anova"):
-            self.score, self.p = self.anova_test()
+            self.score, self.p = self.anova_test_()
         
     def two_way_t_test_(self):
         classes = np.unique(self.resp)
@@ -37,7 +40,7 @@ class Statistics:
             t[i], p[i] = stat.ttest_ind(tmp_data[0], tmp_data[1])
         return t, p
     
-    def anova_test(self):
+    def anova_test_(self):
         classes = np.unique(self.resp)
         c = len(classes)
         
@@ -54,6 +57,7 @@ class Statistics:
             f[i], p[i] = stat.f_oneway(*tmp_data)
             
         return f, p
+        
     
     ## Support methods
     def plot_logp_values(self, variables):
@@ -98,9 +102,14 @@ class Statistics:
                          xytext=(5,5), textcoords="offset points")
         
         plt.show()
-
-
-"""
+    def Bonferroni(self):
+        classes = np.unique(self.resp)
+        c = len(classes)
+        k = len(self.data)/c
+        alpha1 = 0.05/k
+        alpha2 = 0.01/k
+        return([alpha1,alpha2])
+'''
 import adapml_data
 import os
 ##### TESTING CODE 1
@@ -116,11 +125,9 @@ response1D = adapml_data.DataImport.getResponse(path_to_data)
 
 variables = data.getVariableNames()
 samples = data.getSampleNames()
-tmodel = Statistics(data.data, 'anova', response1D)
-tmodel.plot_logp_values(variables)
-tmodel.plot_volcano_t(variables)
-
-"""
+tmodel = Statistics(data.data, 'ttest', response1D)
+tmodel.Bonferroni()
+'''
 ##### TESTING CODE 2    
 #import adapml_data
 #path_to_data = 'C:\\Users\\csa97\\Research\\Projects\\DuLab\\ADAP-ML\\adap-ml\\data\\SCLC_study_output_filtered_2.csv'
