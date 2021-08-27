@@ -73,7 +73,7 @@ The family wise error (FWER) is defined as the probability of yielding one or mo
 
 volcano_code = """\
 print("The significance level after the Bonferroni correction with FWER=0.05 is " + str(t_test.alpha1))
-print("The significance level after the Bonferroni correction with FWER=0.01 is " + str(t_test.alpha1))
+print("The significance level after the Bonferroni correction with FWER=0.01 is " + str(t_test.alpha2))
 
 """
 

@@ -16,7 +16,6 @@ class Statistics:
         self.resp = resp0
         self.alpha1 = self.Bonferroni()[0]
         self.alpha2 = self.Bonferroni()[1]
-        print(self.alpha1)
         
         if (self.method == "ttest"):
             self.score, self.p = self.two_way_t_test_()
