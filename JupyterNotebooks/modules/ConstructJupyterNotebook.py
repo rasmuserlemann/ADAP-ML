@@ -65,13 +65,13 @@ volcano_code = """\
 t_test.plot_volcano_t(variables)
 """
 
-volcano_text = """\
+bonferroni_text = """\
 ## Bonferroni Correction
 
 The family wise error (FWER) is defined as the probability of yielding one or more false positives out of all hypotheses tested. When the number of hypotheses tested incrases, so does the FWER, if the significance level is kept constant. In multiple hypotheses testing, this is corrected by the Bonferroni correction.
 """
 
-volcano_code = """\
+bonferroni_code = """\
 print("The significance level after the Bonferroni correction with FWER=0.05 is " + str(t_test.alpha1))
 print("The significance level after the Bonferroni correction with FWER=0.01 is " + str(t_test.alpha2))
 
@@ -111,6 +111,15 @@ lda_code = """\
 lda = adapml_chemometrics.Chemometrics(data.data, "lda", response1D) # Also Predicts
 
 print("LDA Projections");lda.plotProjectionScatterMultiClass(1, labels=["Healthy", "Not Healthy"])
+
+"""
+
+pca_code = """\
+data.normalizeData("autoscale")
+
+pca = adapml_chemometrics.Chemometrics(data.data, "pca", response1D)
+
+print("PCA Projections");pca.plotProjectionScatterMultiClass(2, labels=["Healthy", "Not Healthy"])
 
 """
 
@@ -258,6 +267,18 @@ data = adapml_data.DataImport(path_to_data)
 svm = adapml_classification.Classification(data.data, response1D, 'svm', .75, kfolds=3)
 
 adapml_classification.print_model_stats(svm, "SVM")
+
+"""
+
+neural_text = """\
+## Neural Network
+"""
+
+neural_code = """\
+data = adapml_data.DataImport(path_to_data)
+nn = adapml_classification.Classification(data.data, response1D, 'neuralnet', .75, kfolds=3)
+
+adapml_classification.print_model_stats(nn, "neuralnet")
 
 """
 
