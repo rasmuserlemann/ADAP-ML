@@ -65,6 +65,16 @@ volcano_code = """\
 t_test.plot_volcano_t(variables)
 """
 
+volcano_text = """\
+## Bonferroni Correction
+
+The family wise error (FWER) is defined as the probability of yielding one or more false positives out of all hypotheses tested. When the number of hypotheses tested incrases, so does the FWER, if the significance level is kept constant. In multiple hypotheses testing, this is corrected by the Bonferroni correction.
+"""
+
+volcano_code = """\
+t_test.Bonferroni()
+"""
+
 
 dim_text = """\
 # Dimension-Reduction
