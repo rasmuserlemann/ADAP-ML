@@ -14,13 +14,16 @@ class Statistics:
         self.data = data0
         self.method = method0
         self.resp = resp0
-        self.alpha1 = self.Bonferroni()[0]
-        self.alpha2 = self.Bonferroni()[1]
         
         if (self.method == "ttest"):
             self.score, self.p = self.two_way_t_test_()
         elif (self.method == "anova"):
             self.score, self.p = self.anova_test_()
+            
+        self.Bon1 = self.Bonferroni()[0]
+        self.Bon2 = self.Bonferroni()[1]
+        self.BH1 = self.BH()[0]
+        self.BH2 = self.BH()[1]
         
     def two_way_t_test_(self):
         classes = np.unique(self.resp)
@@ -108,6 +111,19 @@ class Statistics:
         alpha1 = 0.05/k
         alpha2 = 0.01/k
         return([alpha1,alpha2])
+    def BH(self):
+        classes = np.unique(self.resp)
+        c = len(classes)
+        m = int(len(self.data)/c)-2
+        print(m)
+        pthres1 = 0
+        pthres2 = 0
+        for i in range(m):
+            if sorted(self.p)[i] <= (i/m)*0.05:
+                pthres1 = sorted(self.p)[i]
+            if sorted(self.p)[i] <= (i/m)*0.01:
+                pthres2 = sorted(self.p)[i]
+        return([pthres1, pthres2])
 '''
 import adapml_data
 import os
@@ -124,8 +140,8 @@ response1D = adapml_data.DataImport.getResponse(path_to_data)
 
 variables = data.getVariableNames()
 samples = data.getSampleNames()
-tmodel = Statistics(data.data, 'ttest', response1D)
-tmodel.Bonferroni()
+tmodel = Statistics(data.data, 'anova', response1D)
+print(tmodel.BH())
 '''
 ##### TESTING CODE 2    
 #import adapml_data

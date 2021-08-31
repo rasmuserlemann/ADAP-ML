@@ -65,15 +65,19 @@ volcano_code = """\
 t_test.plot_volcano_t(variables)
 """
 
-bonferroni_text = """\
-## Bonferroni Correction
+fdr_text = """\
+## Multiple Hypotheses Testing Correction
 
-The family wise error (FWER) is defined as the probability of yielding one or more false positives out of all hypotheses tested. When the number of hypotheses tested incrases, so does the FWER, if the significance level is kept constant. In multiple hypotheses testing, this is corrected by the Bonferroni correction.
+The family wise error (FWER) is defined as the probability of yielding one or more false positives out of all hypotheses tested. When the number of hypotheses tested incrases, so does the FWER, if the significance level is kept constant. In multiple hypotheses testing, this can be controlled by the Bonferroni correction.
+
+In multiple testing we can also control for the proportion of false discoveries among the discoveries. This is done by adjusting the false discovery rate and one of the methods for controlling it is the Benjamini-Hochberg method.
 """
 
-bonferroni_code = """\
-print("The significance level after the Bonferroni correction with FWER=0.05 is " + str(t_test.alpha1))
-print("The significance level after the Bonferroni correction with FWER=0.01 is " + str(t_test.alpha2))
+fdr_code = """\
+print("The significance level after the Bonferroni correction with FWER=0.05 is " + str(t_test.Bon1))
+print("The significance level after the Bonferroni correction with FWER=0.01 is " + str(t_test.Bon2))
+print("The Benjamini-Hochberg correction at the FDR level 0.05 is " + str(t_test.BH1))
+print("The Benjamini-Hochberg correction at the FDR level 0.01 is " + str(t_test.BH2))
 
 """
 
@@ -272,6 +276,7 @@ adapml_classification.print_model_stats(svm, "SVM")
 
 neural_text = """\
 ## Neural Network
+
 """
 
 neural_code = """\
