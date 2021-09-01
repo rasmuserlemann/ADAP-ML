@@ -75,11 +75,12 @@ class Clustering:
         distances, indices = nbrs.kneighbors(self.data)
         distances = np.sort(distances, axis=0)
         distances = distances[:,1]
+        maxcurv = KneeLocator(range(len(distances)), distances, curve='convex', direction='increasing')
         #find the max curvature
         #plt.plot(distances)
-        #plt.show()
-        #epshat = np.max(distances)
-        clust = clst.DBSCAN(eps = 1000000, min_samples = 2).fit(self.data)
+        #plt.shot()
+        epshat = distances[maxcurv.knee]
+        clust = clst.DBSCAN(eps = epshat, min_samples = 2).fit(self.data)
         return clust 
         
     def birch_(self):
@@ -225,6 +226,6 @@ from sklearn import datasets
 data = adapml_data.DataImport(path_to_data)
 
 samples = data.getSampleNames()
-ward_cluster = Clustering(data.data, 'kmeans', 2)
-print(ward_cluster.ssb)
+ward_cluster = Clustering(data.data, 'dbscan', 2)
+print(ward_cluster.getClusterResults(samples))
 '''
