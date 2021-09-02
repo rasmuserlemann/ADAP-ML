@@ -210,6 +210,15 @@ hierarchical_cluster.getClusterResults(samples)
 hierarchical_cluster.plot_dendrogram(samples)
 """
 
+eval_text = """\
+## Clustering Methods Performance Evaluation
+
+"""
+
+eval_code = """\
+kmeans_cluster.eval()
+"""
+
 classif_text = """\
 # Classification
 
