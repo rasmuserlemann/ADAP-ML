@@ -26,7 +26,7 @@ class Clustering:
     def __init__(self, data0, method0, num_clusters0):
         self.data = data0
         self.method = method0
-        self.num_clusters = num_clusters0
+        self.num_clusters = self.silhouette()[0]
         
         if (self.method == "kmeans"):
             self.cluster = self.kmeans_()
@@ -75,11 +75,12 @@ class Clustering:
         distances, indices = nbrs.kneighbors(self.data)
         distances = np.sort(distances, axis=0)
         distances = distances[:,1]
+        maxcurv = KneeLocator(range(len(distances)), distances, curve='convex', direction='increasing')
         #find the max curvature
         #plt.plot(distances)
-        #plt.show()
-        #epshat = np.max(distances)
-        clust = clst.DBSCAN(eps = 1000000, min_samples = 2).fit(self.data)
+        #plt.shot()
+        epshat = distances[maxcurv.knee]
+        clust = clst.DBSCAN(eps = epshat, min_samples = 2).fit(self.data)
         return clust 
         
     def birch_(self):
@@ -153,7 +154,7 @@ class Clustering:
                 #calculate s(i)
                 S.append((b-a)/(max(a,b)))
             Svec.append(np.mean(S))
-        return(Svec.index(max(Svec))+2)
+        return([Svec.index(max(Svec))+2, Svec])
     
     def silhouette2(self):
         cutoff = int(len(self.data)/4)
@@ -187,7 +188,20 @@ class Clustering:
             size = len(self.data[np.where(clustlabels==cl)])
             S =+ size*(distance.euclidean(cent, m))**2
         return S
-    
+        
+    def eval(self):
+        print("The silhouette scores for different number of clusters:")
+        cutoff = int(len(self.data)/4)
+        Svec = self.silhouette()[1]
+        for clustnr in range(2, cutoff):
+            print(str(clustnr) + " clusters score is " + str(Svec[clustnr-2]))
+        print("The optimal number of clusters based on k-clustering and the silhouette scores is " + str(self.num_clusters))
+        print(" ")
+        print("Error sum of squares (SSE) for different methods:")
+        print("K-means SSE score is " + str(self.SSE(clst.KMeans, self.num_clusters)))
+        print(" ")
+        print("Between groups sum of squares (SSB) for different methods:")
+        print("K-means SSB score is " + str(self.SSB(clst.KMeans, self.num_clusters)))
     
     def plot_dendrogram(self, sample_labels):
         # Authors: Mathew Kallada (found online)
@@ -214,7 +228,8 @@ class Clustering:
 '''
 ### Testing
 import os      
-os.chdir('/Users/rerleman/Documents/Git/adap-ml/JupyterNotebooks/modules')
+#os.chdir('/Users/rerleman/Documents/Git/adap-ml/JupyterNotebooks/modules')
+os.chdir('/Users/rerleman/Dropbox/My Mac (CCI00BHV2JALT)/Documents/adap-ml/JupyterNotebooks/modules')
 import adapml_data
 from sklearn.metrics import silhouette_samples, silhouette_score
 ##### TESTING CODE 1
@@ -225,6 +240,6 @@ from sklearn import datasets
 data = adapml_data.DataImport(path_to_data)
 
 samples = data.getSampleNames()
-ward_cluster = Clustering(data.data, 'kmeans', 2)
-print(ward_cluster.ssb)
+ward_cluster = Clustering(data.data, 'dbscan', 2)
+ward_cluster.eval()
 '''

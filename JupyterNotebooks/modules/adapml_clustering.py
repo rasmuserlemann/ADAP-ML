@@ -196,6 +196,12 @@ class Clustering:
         for clustnr in range(2, cutoff):
             print(str(clustnr) + " clusters score is " + str(Svec[clustnr-2]))
         print("The optimal number of clusters based on k-clustering and the silhouette scores is " + str(self.num_clusters))
+        print(" ")
+        print("Error sum of squares (SSE) for different methods:")
+        print("K-means SSE score is " + str(self.SSE(clst.KMeans, self.num_clusters)))
+        print(" ")
+        print("Between groups sum of squares (SSB) for different methods:")
+        print("K-means SSB score is " + str(self.SSB(clst.KMeans, self.num_clusters)))
     
     def plot_dendrogram(self, sample_labels):
         # Authors: Mathew Kallada (found online)
