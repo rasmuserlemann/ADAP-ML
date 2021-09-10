@@ -30,10 +30,12 @@ class Clustering:
         
         if (self.method == "kmeans"):
             self.cluster = self.kmeans_()
-            self.sse = self.SSE(clst.KMeans, self.num_clusters)
-            self.ssb = self.SSB(clst.KMeans, self.num_clusters)
+            self.sse = self.SSE(self.cluster, self.clustercenters())
+            self.ssb = self.SSB(self.cluster, self.clustercenters())
         elif (self.method == "hierarchical"):
             self.cluster = self.hierarchical_()
+            self.sse = self.SSE(self.cluster, self.clustercenters())
+            self.ssb = self.SSB(self.cluster, self.clustercenters())
         elif (self.method == "elbow"):
             self.clustnr = self.elbow_()
         elif (self.method == "silhouette"):
@@ -44,6 +46,8 @@ class Clustering:
             self.cluster = self.gaussian_()
         elif (self.method == "meanshift"):
             self.cluster = self.meanshift_()
+            self.sse = self.SSE(self.cluster, self.clustercenters())
+            self.ssb = self.SSB(self.cluster, self.clustercenters())
         elif (self.method == "dbscan"):
             self.cluster = self.dbscan_()
         else:
@@ -97,12 +101,17 @@ class Clustering:
         return clust
     
     ## Support Methods
-    def getClusterResults(self, names):
+    def getClusterResults(self, names, method):
         M = len(names)
         if hasattr(self.cluster, 'labels_'):
             y_pred = self.cluster.labels_
         else:
             y_pred = self.cluster.predict(self.data)
+        if method == "clustercenter":
+            clus_samples = []
+            for cl in range(len(set(y_pred))):
+                clus_samples.append(self.data[np.where(y_pred==cl)])
+            return(clus_samples)
         clusters = {}
         for i in range(self.num_clusters):
                 where = [k for k in range(M) if i==y_pred[k]]
@@ -118,9 +127,7 @@ class Clustering:
             tmp.insert(column=cluster, value=clusters[cluster], loc=0)
             clusters_results = pd.concat([clusters_results, tmp], ignore_index=True, axis=1)
             cluster_names[cluster] = "Cluster "+str(cluster+1)
-    
         clusters_results.rename(columns=cluster_names, inplace=True)
-    
         print(clusters_results)
     
     def silhouette(self):
@@ -166,24 +173,22 @@ class Clustering:
             Svec.append(score)
         return(Svec.index(max(Svec))+2)
     
-    def SSE(self, alg, clustnr):
-        clust = alg(clustnr).fit(self.data)  
+    def SSE(self, clust, centers):
         clustlabels = np.array(clust.labels_)
         S = 0
         for cl in range(np.max(clustlabels)):
-            cent = clust.cluster_centers_[cl]
+            cent = centers[cl]
             inside = self.data[np.where(clustlabels==cl)]
             for el in inside:
                 S =+ (distance.euclidean(cent, el))**2
         return S
         
-    def SSB(self, alg, clustnr):
-        clust = alg(clustnr).fit(self.data)  
+    def SSB(self, clust, centers):
         clustlabels = np.array(clust.labels_)
         m = np.mean(self.data)
         S = 0
         for cl in range(np.max(clustlabels)):
-            cent = clust.cluster_centers_[cl]
+            cent = centers[cl]
             S =+ (distance.euclidean(cent, m))**2
             size = len(self.data[np.where(clustlabels==cl)])
             S =+ size*(distance.euclidean(cent, m))**2
@@ -197,11 +202,16 @@ class Clustering:
             print(str(clustnr) + " clusters score is " + str(Svec[clustnr-2]))
         print("The optimal number of clusters based on k-clustering and the silhouette scores is " + str(self.num_clusters))
         print(" ")
-        print("Error sum of squares (SSE) for different methods:")
-        print("K-means SSE score is " + str(self.SSE(clst.KMeans, self.num_clusters)))
-        print(" ")
-        print("Between groups sum of squares (SSB) for different methods:")
-        print("K-means SSB score is " + str(self.SSB(clst.KMeans, self.num_clusters)))
+        print("SSE score is " + str(self.sse))
+        print("SSB score is " + str(self.ssb))
+    
+    def clustercenters(self):
+        clusters = self.getClusterResults("_", "clustercenter")
+        nr_clusters = len(clusters)
+        centers = []
+        for cluster in range(nr_clusters):
+            centers.append(np.mean(clusters[cluster], axis=0))
+        return(centers)
     
     def plot_dendrogram(self, sample_labels):
         # Authors: Mathew Kallada (found online)
@@ -225,11 +235,12 @@ class Clustering:
         plt.figure(figsize=(14, 9))
         hier.dendrogram(linkage_matrix, labels=sample_labels)
 
+
 '''
 ### Testing
 import os      
-#os.chdir('/Users/rerleman/Documents/Git/adap-ml/JupyterNotebooks/modules')
-os.chdir('/Users/rerleman/Dropbox/My Mac (CCI00BHV2JALT)/Documents/adap-ml/JupyterNotebooks/modules')
+os.chdir('/Users/rerleman/Documents/Git/adap-ml/JupyterNotebooks/modules')
+#os.chdir('/Users/rerleman/Dropbox/My Mac (CCI00BHV2JALT)/Documents/adap-ml/JupyterNotebooks/modules')
 import adapml_data
 from sklearn.metrics import silhouette_samples, silhouette_score
 ##### TESTING CODE 1
@@ -240,6 +251,6 @@ from sklearn import datasets
 data = adapml_data.DataImport(path_to_data)
 
 samples = data.getSampleNames()
-ward_cluster = Clustering(data.data, 'dbscan', 2)
-ward_cluster.eval()
+ward_cluster = Clustering(data.data, 'kmeans', 2)
+print(ward_cluster.eval())
 '''

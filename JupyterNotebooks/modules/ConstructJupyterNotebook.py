@@ -147,7 +147,7 @@ K-means clustering aims to partition the data into $k$ sets and to minimize the 
 
 kmeans_code = """\
 kmeans_cluster = adapml_clustering.Clustering(data.data, 'kmeans', nr_clusters)
-kmeans_cluster.getClusterResults(samples)
+kmeans_cluster.getClusterResults(samples, "regular")
 """
 
 dbscan_text = """\
@@ -159,7 +159,7 @@ DBSCAN is a non-parametric density-based clustering algorithm. It clusters toget
 
 dbscan_code = """\
 dbscan_cluster = adapml_clustering.Clustering(data.data, 'dbscan', nr_clusters)
-dbscan_cluster.getClusterResults(samples)
+dbscan_cluster.getClusterResults(samples, "regular")
 """
 
 birch_text = """\
@@ -171,7 +171,7 @@ BIRCH (balance iterative reducing and clustering using hierarchies) is a hierarc
 
 birch_code = """\
 birch_cluster = adapml_clustering.Clustering(data.data, 'birch', nr_clusters)
-birch_cluster.getClusterResults(samples)
+birch_cluster.getClusterResults(samples, "regular")
 """
 
 gaussian_text = """\
@@ -183,7 +183,7 @@ Gaussian mixture models (GMMs) cluster the data by fitting a mixture of Gaussian
 
 gaussian_code = """\
 gaussian_cluster = adapml_clustering.Clustering(data.data, 'gaussian', nr_clusters)
-gaussian_cluster.getClusterResults(samples)
+gaussian_cluster.getClusterResults(samples, "regular")
 """
 
 meanshift_text = """\
@@ -194,7 +194,7 @@ The mean shift algorithm is a nonparametric clustering technique which does not 
 
 meanshift_code = """\
 meanshift_cluster = adapml_clustering.Clustering(data.data, 'meanshift', nr_clusters)
-meanshift_cluster.getClusterResults(samples)
+meanshift_cluster.getClusterResults(samples, "regular")
 """
 
 hier_text = """\
@@ -206,7 +206,7 @@ We used cosine distance and average linkage scheme.
 
 hier_code = """\
 hierarchical_cluster = adapml_clustering.Clustering(data.data, 'hierarchical', nr_clusters)
-hierarchical_cluster.getClusterResults(samples)
+hierarchical_cluster.getClusterResults(samples, "regular")
 hierarchical_cluster.plot_dendrogram(samples)
 """
 
